@@ -10,11 +10,16 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("First step") {
+        stage("Deploy") {
             steps {
-                echo " ============== start building image =================="
-                dir ('comment') {
-                sh 'docker build -t comment ./'
+                echo " ============== start copy project =================="
+                sh 'ssh root@84.201.174.90 \'cd /project/jenkins/&&git pull origin main\''
+            }   
+
+            steps {
+                echo " ============== start deploy project =================="
+                dir (./) {
+                sh 'ssh root@84.201.174.90 \'cd /project/jenkins/&&docker-compose up -d\''
                 }
             }   
         }

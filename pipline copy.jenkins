@@ -1,0 +1,48 @@
+#!groovy
+properties([disableConcurrentBuilds()])
+
+pipeline {
+    agent { 
+        label 'built-in'
+        } 
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
+        timestamps()
+    }
+    stages {
+        stage("Build comment") {
+            steps {
+                echo " ============== start building image comment =================="
+                dir ('comment') {
+                sh 'docker build -t comment ./'
+                }
+            }   
+        }
+
+        stage("Build nginx") {
+            steps {
+                echo " ============== start building image comment =================="
+                dir ('nginx') {
+                sh 'docker build -t nginx ./'
+                }
+            }   
+        }   
+
+        stage("Build post-py") {
+            steps {
+                echo " ============== start building image comment =================="
+                dir ('post-py') {
+                sh 'docker build -t nginx ./'
+                }
+            }   
+        }       
+        stage("Build ui") {
+            steps {
+                echo " ============== start building image comment =================="
+                dir ('ui') {
+                sh 'docker build -t nginx ./'
+                }
+            }   
+        }           
+    }
+}
