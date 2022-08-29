@@ -12,13 +12,18 @@ pipeline {
     stages {
         stage("First step") {
             steps {
-                sh 'ssh root@84.252.131.145 \'hostname\''
+                sh 'ssh root@84.201.174.90 \'hostname\''
             }
         }
         stage("Second step") {
             steps {
-                sh 'ssh root@84.252.131.145 \'uptime\''
+                sh 'ssh root@84.201.174.90 \'uptime\''
             }
         }
+        stage("Test docker") {
+            steps {
+                sh 'ssh root@84.201.174.90 \'docker run hello-world\''
+            }
+        }   
     }
 }
