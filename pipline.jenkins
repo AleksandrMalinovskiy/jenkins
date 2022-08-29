@@ -14,7 +14,7 @@ pipeline {
             steps {
                 echo " ============== start building image =================="
                 dir ('comment') {
-                sh 'docker build -t comment ./comment'
+                sh 'docker build -t comment ./'
                 }
             }   
         }
