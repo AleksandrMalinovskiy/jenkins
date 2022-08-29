@@ -17,6 +17,13 @@ pipeline {
             }
         }       
         
+        stage("Build") {
+            steps {
+                echo " ============== start build project =================="
+                sh 'ssh root@84.201.174.90 \'cd project/jenkins/&&docker-compose build\''
+            }   
+        }        
+        
         stage("Deploy") {
             steps {
                 echo " ============== start deploy project =================="
