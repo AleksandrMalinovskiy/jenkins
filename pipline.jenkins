@@ -19,7 +19,6 @@ pipeline {
             steps {
                 echo " ============== start deploy project =================="
                 sh 'ssh root@84.201.174.90 \'cd /project/jenkins/&&docker-compose up -d\''
-                }
             }   
         }
     }
