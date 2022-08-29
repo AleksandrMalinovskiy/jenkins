@@ -31,5 +31,12 @@ pipeline {
                 sh 'ssh root@84.201.174.90 \'cd project/jenkins/&&docker-compose up -d\''
             }   
         }
+
+        stage("Docker conteiner list") {
+            steps {
+                echo " ============== Docker conteiner list =================="
+                sh 'ssh root@84.201.174.90 \'docker ps\''
+            }   
+        }
     }
 }
