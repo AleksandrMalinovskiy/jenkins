@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+   nginx:
+    container_name: nginx
+    build: ./nginx
+    networks:
+      reddit:
+    ports:
+    - "80:80"
+
+   mongo:
+    container_name: mongodb
+    image: mongo:latest
+    networks:
+      reddit:
+        aliases:
+          - post_db   
+    volumes:
+      - reddit_db:/data/db
+
+   post:
+    container_name: post
+    build: ./post-py
+    networks:
+      reddit:
+        aliases:
+          - post
+
+   comment:
+    container_name: comment
+    build: ./comment
+    networks:
+      reddit:
+        aliases:
+          - comment
+   
+   ui:
+    container_name: ui
+    build: ./ui
+    networks:
+      reddit: 
+
+networks:
+  reddit:
+    external: true
+
+volumes:
+  reddit_db:
+    driver: local
