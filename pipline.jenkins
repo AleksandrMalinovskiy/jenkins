@@ -15,7 +15,8 @@ pipeline {
                 echo " ============== start building image =================="
                 dir ('comment') {
                 sh 'docker build -t project/comment'
-            }
-        }   
+                }
+            }   
+        }
     }
 }
