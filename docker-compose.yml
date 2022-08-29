@@ -1,14 +1,15 @@
 version: "3"
-
 services:
    nginx:
     container_name: nginx
-    build: ./nginx
+    image: nginx
     networks:
       reddit:
     ports:
     - "80:80"
-
+    volumes:
+      - ./nginx/def.conf:/etc/nginx/conf.d/default.conf
+   
    mongo:
     container_name: mongodb
     image: mongo:latest
@@ -18,7 +19,6 @@ services:
           - post_db   
     volumes:
       - reddit_db:/data/db
-
    post:
     container_name: post
     build: ./post-py
@@ -26,7 +26,6 @@ services:
       reddit:
         aliases:
           - post
-
    comment:
     container_name: comment
     build: ./comment
@@ -40,11 +39,9 @@ services:
     build: ./ui
     networks:
       reddit: 
-
 networks:
   reddit:
     external: true
-
 volumes:
   reddit_db:
     driver: local
