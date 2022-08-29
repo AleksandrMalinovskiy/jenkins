@@ -5,6 +5,7 @@ pipeline {
     agent { 
         label 'built-in'
         }
+    triggers { pollSCM('* * * * *') }   
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
@@ -12,17 +13,9 @@ pipeline {
     stages {
         stage("First step") {
             steps {
-                sh 'ssh root@84.201.174.90 \'hostname\''
-            }
-        }
-        stage("Second step") {
-            steps {
-                sh 'ssh root@84.201.174.90 \'uptime\''
-            }
-        }
-        stage("Test docker") {
-            steps {
-                sh 'ssh root@84.201.174.90 \'docker run hello-world\''
+                echo " ============== start building image =================="
+                dir ('comment') {
+                sh 'docker build -t project/comment'
             }
         }   
     }
