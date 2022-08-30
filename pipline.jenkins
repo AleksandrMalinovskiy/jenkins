@@ -9,39 +9,33 @@ pipeline {
         timestamps()
     }
     stages {
-        stage("Update") {
+        stage("Create") {
             steps {
-                echo " ============== start copy project =================="
-                sh 'ssh root@84.252.128.68 \'cd project/jenkins/&&git pull origin main\''
+                echo " ============== create file =================="
+                sh 'ssh root@62.84.118.103 \'cd /home/&&touch test_file\''
             }
         }       
         
-        stage("Build") {
+        stage("Edit") {
             steps {
-                echo " ============== start build project =================="
-                sh 'ssh root@84.252.128.68 \'cd project/jenkins/&&docker-compose build\''
+                echo " ============== edit file =================="
+                sh 'ssh root@62.84.118.103 \'echo "Hello!!" > /home/test_file\''
             }   
         }        
         
          stage("Test") {
             steps {
-                echo " ============== start test project =================="
-                sh 'ssh root@84.252.128.68 \'docker network ls | grep reddit \''
+                echo " ==============  test  =================="
+                sh 'ssh root@62.84.118.103 \'cat /home/test_file \''
             }   
         }       
 
         stage("Deploy") {
             steps {
-                echo " ============== start deploy project =================="
-                sh 'ssh root@84.252.128.68 \'cd project/jenkins/&&docker-compose up -d\''
+                echo " ============== result =================="
+                sh 'ssh root@62.84.118.103 \'ls -al /home/\''
             }   
         }
 
-        stage("Docker conteiner list") {
-            steps {
-                echo " ============== Docker conteiner list =================="
-                sh 'ssh root@84.252.128.68 \'docker ps\''
-            }   
-        }
     }
 }
