@@ -2,40 +2,45 @@
 properties([disableConcurrentBuilds()])
 
 pipeline {
-    agent { 
-        label 'built-in'
-        }
-    triggers { pollSCM('* * * * *') }
+    agent any
+    
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
     }
     stages {
-        stage("Copy") {
+        stage("Update") {
             steps {
                 echo " ============== start copy project =================="
-                sh 'ssh root@84.201.174.90 \'cd project/jenkins/&&git pull origin main\''
+                sh 'ssh root@84.252.128.68 \'cd project/jenkins/&&git pull origin main\''
             }
         }       
         
         stage("Build") {
             steps {
                 echo " ============== start build project =================="
-                sh 'ssh root@84.201.174.90 \'cd project/jenkins/&&docker-compose build\''
+                sh 'ssh root@84.252.128.68 \'cd project/jenkins/&&docker-compose build\''
             }   
         }        
         
+         stage("Test") {
+            steps {
+                echo " ============== start test project =================="
+                sh 'ssh root@84.252.128.68 \'docker network ls | grep reddit \''
+            }   
+        }       
+
         stage("Deploy") {
             steps {
                 echo " ============== start deploy project =================="
-                sh 'ssh root@84.201.174.90 \'cd project/jenkins/&&docker-compose up -d\''
+                sh 'ssh root@84.252.128.68 \'cd project/jenkins/&&docker-compose up -d\''
             }   
         }
 
         stage("Docker conteiner list") {
             steps {
                 echo " ============== Docker conteiner list =================="
-                sh 'ssh root@84.201.174.90 \'docker ps\''
+                sh 'ssh root@84.252.128.68 \'docker ps\''
             }   
         }
     }
