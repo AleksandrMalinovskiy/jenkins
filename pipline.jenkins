@@ -2,8 +2,7 @@
 properties([disableConcurrentBuilds()])
 
 pipeline {
-    agent any
-    
+    agent any    
     options {
         buildDiscarder(logRotator(numToKeepStr: '10', artifactNumToKeepStr: '10'))
         timestamps()
@@ -11,6 +10,7 @@ pipeline {
     stages {
         stage("Update") {
             steps {
+                echo " ============== BRANCH MAIN =================="
                 echo " ============== start copy project =================="
                 sh 'ssh root@84.252.128.68 \'cd project/jenkins/&&git pull origin main\''
             }
@@ -18,6 +18,7 @@ pipeline {
         
         stage("Build") {
             steps {
+                echo " ============== BRANCH MAIN =================="
                 echo " ============== start build project =================="
                 sh 'ssh root@84.252.128.68 \'cd project/jenkins/&&docker-compose build\''
             }   
@@ -25,6 +26,7 @@ pipeline {
         
          stage("Test") {
             steps {
+                echo " ============== BRANCH MAIN =================="
                 echo " ============== start test project =================="
                 sh 'ssh root@84.252.128.68 \'docker network ls | grep reddit \''
             }   
@@ -32,6 +34,7 @@ pipeline {
 
         stage("Deploy") {
             steps {
+                echo " ============== BRANCH MAIN =================="
                 echo " ============== start deploy project =================="
                 sh 'ssh root@84.252.128.68 \'cd project/jenkins/&&docker-compose up -d\''
             }   
@@ -39,6 +42,7 @@ pipeline {
 
         stage("Docker conteiner list") {
             steps {
+                echo " ============== BRANCH MAIN =================="
                 echo " ============== Docker conteiner list =================="
                 sh 'ssh root@84.252.128.68 \'docker ps\''
             }   
